@@ -997,65 +997,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
-                       
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-semibold">Marketing Campaigns</h2>
-                        <div class="flex space-x-3">
-                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700" onclick="createEmailCampaign()">
-                                <i class="fas fa-envelope mr-2"></i>Email Campaign
-                            </button>
-                            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700" onclick="createSocialCampaign()">
-                                <i class="fas fa-share-alt mr-2"></i>Social Campaign
-                            </button>
-                            <button class="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700" onclick="showModal('add-campaign-modal')">
-                                <i class="fas fa-plus mr-2"></i>New Campaign
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <h2 class="text-2xl font-semibold mb-6">Settings</h2>
-                    
-                    <div class="grid lg:grid-cols-2 gap-6 mb-6">
-                        <!-- Store Settings -->
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-lg font-semibold mb-4">Store Settings</h3>
-                            <form id="store-settings-form" class="space-y-4">
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Store Name</label>
-                                    <input type="text" id="store-name" value="Boutique Name" class="w-full border border-gray-300 rounded-lg px-3 py-2">
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Store Description</label>
-                                    <textarea rows="3" id="store-description" class="w-full border border-gray-300 rounded-lg px-3 py-2">Your destination for fashion and style</textarea>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Currency</label>
-                                    <select id="store-currency" class="w-full border border-gray-300 rounded-lg px-3 py-2">
-                                        <option value="USD">USD ($)</option>
-                                        <option value="EUR">EUR (€)</option>
-                                        <option value="GBP">GBP (£)</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-medium mb-1">Time Zone</label>
-                                    <select id="store-timezone" class="w-full border border-gray-300 rounded-lg px-3 py-2">
-                                        <option value="UTC-5">Eastern Time (UTC-5)</option>
-                                        <option value="UTC-6">Central Time (UTC-6)</option>
-                                        <option value="UTC-7">Mountain Time (UTC-7)</option>
-                                        <option value="UTC-8">Pacific Time (UTC-8)</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                        
-
-
-
-
-
-                        
                     <div class="flex justify-end space-x-4">
                         <button class="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600" onclick="resetSettings()">
                             Reset to Default
@@ -1340,6 +1281,7 @@
 
         // Dashboard data loading
         function loadDashboardData() {
+            initializeDashboardCharts();
             // Load recent orders
             const recentOrdersTable = document.getElementById('recent-orders-table');
             recentOrdersTable.innerHTML = sampleData.orders.slice(0, 5).map(order => `
@@ -1512,19 +1454,12 @@
         function loadAnalyticsData() {
             // This would typically load real analytics data
             // For demo purposes, we'll use the existing charts
-            if (window.salesChart) {
-                window.salesChart.destroy();
-            }
-            if (window.acquisitionChart) {
-                window.acquisitionChart.destroy();
-            }
-            
-            // Initialize analytics charts
             initializeAnalyticsCharts();
         }
 
         // Marketing data loading
         function loadMarketingData() {
+            initializeMarketingChart();
             const activeCampaigns = document.getElementById('active-campaigns');
             activeCampaigns.innerHTML = `
                 <div class="flex justify-between items-center p-4 border rounded-lg">
@@ -1765,7 +1700,7 @@
             }
         }
 
-        / Order functions
+        // Order functions
         function viewOrder(orderId) {
             const order = sampleData.orders.find(o => o.id === orderId);
             if (order) {
@@ -1980,8 +1915,10 @@
         // Export functions
         function exportProducts() {
             const csvContent = "data:text/csv;charset=utf-8," 
-                + "Name,SKU,Category,Price,Stock,Status\n"
-                + sampleData.products.map(p => `"${p.name}","${p.sku}","${p.category}",${p.price},${p.stock},"${p.status}"`).join('\n');
+                + "Name,SKU,Category,Price,Stock,Status
+"
+                + sampleData.products.map(p => `"${p.name}","${p.sku}","${p.category}",${p.price},${p.stock},"${p.status}"`).join('
+');
             
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
@@ -1996,8 +1933,10 @@
 
         function exportOrders() {
             const csvContent = "data:text/csv;charset=utf-8," 
-                + "Order ID,Customer,Email,Date,Amount,Status\n"
-                + sampleData.orders.map(o => `"${o.id}","${o.customer}","${o.email}","${o.date}",${o.amount},"${o.status}"`).join('\n');
+                + "Order ID,Customer,Email,Date,Amount,Status 
+"
+                + sampleData.orders.map(o => `"${o.id}","${o.customer}","${o.email}","${o.date}",${o.amount},"${o.status}"`).join('
+');
             
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
@@ -2090,8 +2029,8 @@
         }
 
         // Chart initialization
-        function initializeCharts() {
-            // Revenue Chart
+        function initializeDashboardCharts() {
+            if(window.revenueChart) window.revenueChart.destroy();
             const revenueCtx = document.getElementById('revenueChart').getContext('2d');
             window.revenueChart = new Chart(revenueCtx, {
                 type: 'line',
@@ -2105,6 +2044,87 @@
                         tension: 0.4,
                         fill: true
                     }]
-                }
-            }
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            if(window.categoryChart) window.categoryChart.destroy();
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            window.categoryChart = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Dresses', 'Bags', 'Shoes', 'Accessories'],
+                    datasets: [{
+                        data: [40, 25, 20, 15],
+                        backgroundColor: ['#ec4899', '#8b5cf6', '#3b82f6', '#10b981'],
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
         }
+
+        function initializeAnalyticsCharts() {
+            if(window.salesChart) window.salesChart.destroy();
+            const salesCtx = document.getElementById('salesChart').getContext('2d');
+            window.salesChart = new Chart(salesCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [{
+                        label: 'Sales',
+                        data: [150, 230, 310, 280],
+                        backgroundColor: '#3b82f6',
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+
+            if(window.acquisitionChart) window.acquisitionChart.destroy();
+            const acquisitionCtx = document.getElementById('acquisitionChart').getContext('2d');
+            window.acquisitionChart = new Chart(acquisitionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Organic',
+                        data: [150, 200, 300, 250, 400, 450],
+                        borderColor: '#10b981',
+                        fill: false,
+                    }, {
+                        label: 'Paid',
+                        data: [100, 150, 200, 180, 250, 300],
+                        borderColor: '#f59e0b',
+                        fill: false,
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        function initializeMarketingChart() {
+            if(window.marketingChart) window.marketingChart.destroy();
+            const marketingCtx = document.getElementById('marketingChart').getContext('2d');
+            window.marketingChart = new Chart(marketingCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Email', 'Social Media', 'Affiliate', 'SEO', 'PPC'],
+                    datasets: [{
+                        label: 'Effectiveness',
+                        data: [70, 85, 60, 75, 90],
+                        backgroundColor: 'rgba(139, 92, 246, 0.2)',
+                        borderColor: '#8b5cf6',
+                        pointBackgroundColor: '#8b5cf6',
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('dashboard-section');
+            updateStats();
+            updateNotificationCount();
+        });
+    </script>
+</body>
+</html>
