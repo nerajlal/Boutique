@@ -13,7 +13,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .fade-in { animation: fadeIn 0.6s ease-out; }
-        
+
         /* File upload styling */
         .file-upload-area {
             border: 2px dashed #d1d5db;
@@ -27,7 +27,7 @@
             border-color: #ec4899;
             background-color: #fdf2f8;
         }
-        
+
         /* Color picker styling */
         .color-picker {
             width: 40px;
@@ -36,7 +36,7 @@
             border-radius: 50%;
             cursor: pointer;
         }
-        
+
         /* Rich text editor placeholder */
         .rich-editor {
             min-height: 120px;
@@ -44,7 +44,7 @@
             border-radius: 0.5rem;
             padding: 0.75rem;
         }
-        
+
         /* Tag input styling */
         .tag {
             background: #ec4899;
@@ -56,7 +56,7 @@
             align-items: center;
             margin: 0.125rem;
         }
-        
+
         /* Form section styling */
         .form-section {
             background: white;
@@ -65,14 +65,14 @@
             margin-bottom: 1.5rem;
             padding: 1.5rem;
         }
-        
+
         /* Preview styles */
         .preview-image {
             position: relative;
             overflow: hidden;
             border-radius: 0.5rem;
         }
-        
+
         /* Custom checkbox and radio styles */
         .custom-checkbox {
             appearance: none;
