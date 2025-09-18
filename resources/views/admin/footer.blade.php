@@ -403,26 +403,6 @@
             `;
         }
 
-        // Sidebar navigation
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                // Remove active class from all links
-                document.querySelectorAll('.nav-link').forEach(l => {
-                    l.classList.remove('active', 'bg-pink-600');
-                    l.classList.add('hover:bg-gray-700');
-                });
-
-                // Add active class to clicked link
-                this.classList.add('active', 'bg-pink-600');
-                this.classList.remove('hover:bg-gray-700');
-
-                // Show corresponding section
-                const section = this.dataset.section + '-section';
-                showSection(section);
-            });
-        });
 
         // Toggle sidebar
         function toggleSidebar() {
@@ -1017,6 +997,27 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Sidebar navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    // Remove active class from all links
+                    document.querySelectorAll('.nav-link').forEach(l => {
+                        l.classList.remove('active', 'bg-pink-600');
+                        l.classList.add('hover:bg-gray-700');
+                    });
+
+                    // Add active class to clicked link
+                    this.classList.add('active', 'bg-pink-600');
+                    this.classList.remove('hover:bg-gray-700');
+
+                    // Show corresponding section
+                    const section = this.dataset.section + '-section';
+                    showSection(section);
+                });
+            });
+
             showSection('dashboard-section');
             updateStats();
             updateNotificationCount();
