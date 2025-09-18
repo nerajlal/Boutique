@@ -1,4 +1,121 @@
-@include('header')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product - Boutique Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+
+        /* File upload styling */
+        .file-upload-area {
+            border: 2px dashed #d1d5db;
+            transition: all 0.3s ease;
+        }
+        .file-upload-area:hover {
+            border-color: #ec4899;
+            background-color: #fdf2f8;
+        }
+        .file-upload-area.dragover {
+            border-color: #ec4899;
+            background-color: #fdf2f8;
+        }
+
+        /* Color picker styling */
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Rich text editor placeholder */
+        .rich-editor {
+            min-height: 120px;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+
+        /* Tag input styling */
+        .tag {
+            background: #ec4899;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            margin: 0.125rem;
+        }
+
+        /* Form section styling */
+        .form-section {
+            background: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+        }
+
+        /* Preview styles */
+        .preview-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+        }
+
+        /* Custom checkbox and radio styles */
+        .custom-checkbox {
+            appearance: none;
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid #d1d5db;
+            border-radius: 0.25rem;
+            position: relative;
+        }
+        .custom-checkbox:checked {
+            background-color: #ec4899;
+            border-color: #ec4899;
+        }
+        .custom-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center py-4">
+                <div class="text-2xl font-bold text-pink-600">
+                    <i class="fas fa-gem mr-2"></i>BOUTIQUE ADMIN
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors">
+                        <i class="fas fa-eye mr-2"></i>Preview
+                    </button>
+                    <button class="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors" onclick="saveProduct()">
+                        <i class="fas fa-save mr-2"></i>Save Product
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
 
     <!-- Main Content -->
     <main class="container mx-auto px-4 py-8">
